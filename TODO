@@ -1,0 +1,4 @@
+1: Fix `fileread` to where it can tell if file inputted has no permission
+2: Make a Tokenizer soon
+3: Add more error functions
+4: Add `stdarg` support to any new or current error functions
