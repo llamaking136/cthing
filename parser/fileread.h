@@ -24,6 +24,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #include "../error/error.h"
 

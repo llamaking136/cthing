@@ -20,7 +20,13 @@
 
 char* fileread(char* filename) {
     FILE* fp;
-    char buffer[FILE_BUFF];
+
+	struct stat st;
+	stat(filename, &st);
+
+	off_t buffer_size = st.st_size;
+
+    char buffer[buffer_size];
     if (access(filename, F_OK) != 0) {
         fprintf(stderr, "fatal error: cannot open file %s for reading [errno %d]\n", filename, errno);
         exit(1);
@@ -28,7 +34,7 @@ char* fileread(char* filename) {
         fprintf(stderr, "fatal error: cannot open file %s for reading [errno %d]\n", filename, errno);
         exit(1);
     }
-    printf("[+]: i shouldn't be here!\n");
+    // printf("[+]: i shouldn't be here!\n");
     fp = fopen(filename, "r");
     fgets(buffer, FILE_BUFF, (FILE*)fp);
     fclose(fp);

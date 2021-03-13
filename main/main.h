@@ -20,6 +20,10 @@
 #if !defined(MAIN_H)
 #define MAIN_H
 
+#if defined(WIN32)
+# error cthing does not support windows (yet)
+#endif // WIN32
+
 #include <array.h>
 #include "../parser/parser.h"
 #include "../args/argparser.h"
