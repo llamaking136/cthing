@@ -20,6 +20,23 @@
 #if !defined(TOKENIZER_H)
 #define TOKENIZER_H
 
-// code...
+#define INT_MAX_SIZE 1024
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdint.h>
+
+#include <array.h>
+#include "token.h"
+#include "fileread.h"
+
+extern const char* DIGITS;
+extern const char* NAMES;
+
+TokenArray Tokenize(char*);
+
+Token get_number(char*, uint32_t*, uint32_t*, char*);
 
 #endif // TOKENIZER_H

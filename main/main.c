@@ -20,8 +20,7 @@
 
 int main(int argc, char** argv) {
     parseargs(argc, argv);
-    char* data = fileread(argv[1]);
-    // TokenArray tokens = Tokenize(fileread(argv[1]));
-    // printArray(&tokens);
+	TokenArray tokens = Tokenize(argv[1]);
+    printArray(&tokens);
     return 0;
 }

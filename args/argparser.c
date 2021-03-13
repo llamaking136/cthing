@@ -50,8 +50,12 @@ int parseargs(int argc, char** argv) {
             case 'v':
                 exit(printversion());
                 break;
+			case '-':
+				fprintf(stderr, "fatal error: word arguments not yet supported\n");
+				exit(1);
+				break;
             default:
-                fprintf(stderr, "fatal error: unknown option: %c", argv[optind][1]);
+                fprintf(stderr, "fatal error: unknown option: %c\n", argv[optind][1]);
                 exit(1);
                 break;
         }

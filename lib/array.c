@@ -40,7 +40,7 @@ void freeArray(TokenArray* t) {
 
 void printArray(TokenArray* t) {
     for (size_t i = 0; i < t->used; i++) {
-        printf("'%s', ", t->array[i].data);
+        printf("Token('%s', %s, '%s', %zd, %zd), ", t->array[i].data, Token_t_str[t->array[i].type], t->array[i].filename, t->array[i].line, t->array[i].pos);
     }
     printf("\n");
 }

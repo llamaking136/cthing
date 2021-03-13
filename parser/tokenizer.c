@@ -17,4 +17,71 @@
 // limitations under the License.
 
 
-// code...
+#include "tokenizer.h"
+
+const char* DIGITS = "0123456789";
+const char* NAMES = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_";
+
+TokenArray Tokenize(char* filename) {
+	TokenArray result;
+	initArray(&result, 1);
+	
+	char* file_data = fileread(filename);
+
+	char cur_chr;
+	uint32_t line;
+	uint32_t pos;
+
+	for (pos = 0; pos < strlen(file_data); pos++) {
+		cur_chr = file_data[pos];
+		
+		if (strchr(" \t", cur_chr))
+			continue;
+		else if (cur_chr == '\n') {
+			line++;
+			continue;
+		}
+		// math operators
+		else if (cur_chr == '+') {
+			insertArray(&result, (Token){ "+", OPERATOR, filename, line, pos });
+			continue;
+		}
+
+		// if all fails
+		else {
+			fprintf(stderr, "%s:%d: error: illegal character: %c\n", filename, line + 1, cur_chr);
+			freeArray(&result);
+			exit(1);
+		}
+	}
+	
+	return result;
+}
+
+Token get_number(char* data, uint32_t* pos, uint32_t* line, char* filename) {
+	char cur_chr;
+	char num_str[INT_MAX_SIZE];
+	int dot_num = 0;
+
+	uint32_t num_pos;
+
+	for (num_pos = 0; num_pos < strlen(data); num_pos++) {
+		cur_chr = data[num_pos];
+		if (cur_chr == '.') {
+			if (dot_num == 1)
+				break;
+			dot_num++;
+			num_str[num_pos] = '.';
+		} else {
+			num_str[num_pos] = cur_chr;
+		}
+	}
+	*pos += num_pos;
+	if (dot_num == 0)
+		return (Token){ &num_str, INTEGER, filename, *line, *pos - num_pos };
+	else {
+		// FIXME: this causes a memory leak, fix soon!
+		fprintf(stderr, "%s:%d: error: cannot support floating-point integers (yet)\n", filename, *line + 1);
+		exit(1);
+	}
+}

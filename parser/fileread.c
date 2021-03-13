@@ -18,6 +18,7 @@
 
 #include "fileread.h"
 
+/*
 char* fileread(char* filename) {
     FILE* fp;
 
@@ -36,8 +37,40 @@ char* fileread(char* filename) {
     }
     // printf("[+]: i shouldn't be here!\n");
     fp = fopen(filename, "r");
-    fgets(buffer, FILE_BUFF, (FILE*)fp);
+    fgets(buffer, FILE_BUFF, fp);
     fclose(fp);
     char* data = buffer;
+
     return data;
+}
+*/
+char *fileread(char *filename)
+{
+    long int size = 0;
+    FILE *file = fopen(filename, "r");
+    
+    if(!file) {
+        fputs("File error.\n", stderr);
+        return NULL;
+    }
+
+    fseek(file, 0, SEEK_END);
+    size = ftell(file);
+    rewind(file);
+
+    char *result = (char *) malloc(size);
+    if(!result) {
+        fputs("Memory error.\n", stderr);
+        fclose(file);
+        return NULL;
+    }
+
+    if(fread(result, 1, size, file) != size) {
+        fputs("Read error.\n", stderr);
+        fclose(file);
+        return NULL;
+    }
+
+    fclose(file);
+    return result;
 }
